@@ -1,17 +1,31 @@
-require 'orbit/orbit_globals'
-require 'orbit/geocentric_coordinates'
-require 'orbit/topocentric_horizon_coordinates'
-require 'orbit/julian'
-require 'orbit/norad_base'
-require 'orbit/norad_sgp4'
-require 'orbit/norad_sdp4'
-require 'orbit/eci'
-require 'orbit/site'
-require 'orbit/satellite'
-require 'orbit/tle'
-require 'orbit/orbit'
-require 'orbit/vector'
-require 'date'
+includes = [
+	'orbit/orbit_globals',
+	'orbit/geocentric_coordinates',
+	'orbit/topocentric_horizon_coordinates',
+	'orbit/julian',
+	'orbit/norad_base',
+	'orbit/norad_sgp4',
+	'orbit/norad_sdp4',
+	'orbit/eci',
+	'orbit/site',
+	'orbit/satellite',
+	'orbit/tle',
+	'orbit/orbit',
+	'orbit/vector',
+	'date',
+]
+
+if defined?(Motion::Project::App)
+  Motion::Project::App.setup do |app|
+    includes.each do |file|
+      app.files << File.join(File.dirname(__FILE__), file)
+    end
+  end
+else
+	includes.each do |incl|
+		require incl
+	end
+end
 
 module Orbit
 
