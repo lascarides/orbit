@@ -17,7 +17,7 @@ includes = [
 if defined?(Motion::Project::App)
   Motion::Project::App.setup do |app|
     includes.each do |file|
-      app.files << File.join(File.dirname(__FILE__), file)
+      app.files << File.join(File.dirname(__FILE__), "#{file}.rb")
     end
   end
 else
