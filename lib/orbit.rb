@@ -11,8 +11,7 @@ includes = [
 	'orbit/satellite',
 	'orbit/tle',
 	'orbit/orbit',
-	'orbit/vector',
-	'date',
+	'orbit/vector'
 ]
 
 if defined?(Motion::Project::App)
