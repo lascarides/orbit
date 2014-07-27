@@ -83,13 +83,31 @@ module Orbit
       end
 
       def self.time_to_gmst(t)
-        jd = t.to_date.jd - 0.5
-        seconds = (t.hour * 3600) + (t.min * 60) + (t.sec).to_f + (t.subsec).to_f
-        fraction_of_day = seconds / 86400.0
+        # RubyMotion's Time and Date classes lack Julian conversions. 
+        # This is a substitute from 
+        # http://www.cerebralmeltdown.com/programming_projects/ruby-code-for-calculating-the-suns-position/
+        # (t is assumed to be GMT)
+        y = t.year
+        m = t.month
+        d = t.day + t.hour/24.to_f + t.min/1440.to_f + t.sec/86400.to_f
+        if m > 2
+          y=y
+          m=m
+           else
+          y = y-1
+          m = m+12
+              end
+        a = (y/100).to_int
+        b = 2 - a + (a/4).to_int
+        jd = (365.25 * (y+4716)).to_int + (30.6001 * (m+1)).to_int + d + b + -1524.5
 
-        jd += fraction_of_day
+        # # jd = t.to_date.jd - 0.5
+        # seconds = (t.hour * 3600) + (t.min * 60) + (t.sec).to_f + (t.subsec).to_f
+        # fraction_of_day = seconds / 86400.0
 
-        #puts "jd: #{jd}"
+        # jd += fraction_of_day
+
+        # #puts "jd: #{jd}"
 
         ut = (jd + 0.5 ) % 1.0;
         jd = jd - ut
